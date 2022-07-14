@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 function FilterHeader() {
+  const { search } = useContext(Context);
   return (
     <header>
       <form onSubmit={ filterButton }>
         <label htmlFor="currency">
           Coluna:
           <select
-            id="collum-filter"
-            name="collum-filter"
-            data-testid=""
+            id="name-filter"
+            name="name-filter"
+            data-testid="name-filter"
             value={ collum }
             onChange={ onInputChange }
           >
-            {colluns.map((collum) => (
+            {data.map((collum) => (
               <option
                 key={ collum }
                 value={ collum }
@@ -22,7 +23,7 @@ function FilterHeader() {
               </option>))}
           </select>
         </label>
-        <label htmlFor="currency">
+        {/* <label htmlFor="currency">
           Operador:
           <select
             id="method"
@@ -51,38 +52,9 @@ function FilterHeader() {
           type="submit"
         >
           Filtrar
-        </button>
+        </button> */}
 
       </form>
-      {/* <form onSubmit={ filterButton }>
-        <label htmlFor="currency">
-          Ordenar:
-          <select
-            id="collum-filter"
-            name="collum-filter"
-            data-testid=""
-            value={ collum }
-            onChange={ onInputChange }
-          >
-            {colluns.map((collum) => (
-              <option
-                key={ collum }
-                value={ collum }
-              >
-                {collum}
-              </option>))}
-          </select>
-        </label>
-
-        <button
-          id="addExpense"
-          name="addExpense"
-          type="submit"
-        >
-          Ordenar
-        </button>
-
-      </form> */}
     </header>
   );
 }

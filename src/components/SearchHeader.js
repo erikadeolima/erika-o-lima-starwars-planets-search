@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Context from '../context/Context';
 
 function SearchHeader() {
+  const { setDados } = useContext(Context);
+
   return (
     <header>
-      <form onSubmit={ filterButton }>
+      <form>
         <input
-          id="value"
-          name="value"
+          id="name-filter"
           type="text"
-          data-testid="value-input"
-          value={ value }
-          onChange={ onInputChange }
+          data-testid="name-filter"
+          onChange={ ({ target: { value } }) => setDados(value) }
         />
       </form>
     </header>

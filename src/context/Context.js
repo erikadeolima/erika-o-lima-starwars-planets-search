@@ -1,5 +1,8 @@
 import { createContext } from 'react';
 
-const Context = createContext({ data: [] });
+const Context = createContext({
+  data: [],
+  name: '',
+});
 
 export default Context;

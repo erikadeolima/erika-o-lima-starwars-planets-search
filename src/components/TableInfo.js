@@ -1,63 +1,49 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Context from '../context/Context';
-import Api from '../hooks/Api';
-import Loading from './Loading';
 
 function TableInfo() {
-  const { data, setData } = useContext(Context);
+  const { filtered } = useContext(Context);
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      const info = await Api();
-      const dataFilter = info.map(({ residents, ...rest }) => rest);
-      setData(dataFilter);
-    };
-    fetchApi();
-  }, [setData]);
   return (
     <div>
-      {data.length === 0 ? (
-        <Loading />
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Rotation Period</th>
-              <th>Orbital Period</th>
-              <th>Diameter</th>
-              <th>Climate</th>
-              <th>Gravity</th>
-              <th>Terrain</th>
-              <th>Surface Water</th>
-              <th>Population</th>
-              <th>Films</th>
-              <th>Created</th>
-              <th>Edited</th>
-              <th>URL</th>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rotation Period</th>
+            <th>Orbital Period</th>
+            <th>Diameter</th>
+            <th>Climate</th>
+            <th>Gravity</th>
+            <th>Terrain</th>
+            <th>Surface Water</th>
+            <th>Population</th>
+            <th>Films</th>
+            <th>Created</th>
+            <th>Edited</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          { filtered.map((planet, index) => (
+            <tr key={ index }>
+              <td name={ planet.name }>{planet.name}</td>
+              <td name={ planet.rotation_period }>{planet.rotation_period}</td>
+              <td name={ planet.orbital_period }>{planet.orbital_period}</td>
+              <td name={ planet.diameter }>{planet.diameter}</td>
+              <td name={ planet.climate }>{planet.climate}</td>
+              <td name={ planet.gravity }>{planet.gravity}</td>
+              <td name={ planet.terrain }>{planet.terrain}</td>
+              <td name={ planet.surface_water }>{planet.surface_water}</td>
+              <td name={ planet.population }>{planet.population}</td>
+              <td name={ planet.films }>{planet.films}</td>
+              <td name={ planet.created }>{planet.created}</td>
+              <td name={ planet.edited }>{planet.edited}</td>
+              <td name={ planet.url }>{planet.url}</td>
             </tr>
-          </thead>
-          <tbody>
-            {data.map((info, index) => (
-              <tr key={ index }>
-                <td name={ info.name }>{info.name}</td>
-                <td name={ info.rotation_period }>{info.rotation_period}</td>
-                <td name={ info.orbital_period }>{info.orbital_period}</td>
-                <td name={ info.diameter }>{info.diameter}</td>
-                <td name={ info.climate }>{info.climate}</td>
-                <td name={ info.gravity }>{info.gravity}</td>
-                <td name={ info.terrain }>{info.terrain}</td>
-                <td name={ info.surface_water }>{info.surface_water}</td>
-                <td name={ info.population }>{info.population}</td>
-                <td name={ info.films }>{info.films}</td>
-                <td name={ info.created }>{info.created}</td>
-                <td name={ info.edited }>{info.edited}</td>
-                <td name={ info.url }>{info.url}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+          ))}
+        </tbody>
+      </table>
     </div>
 
   );

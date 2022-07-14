@@ -1,19 +1,37 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Api from '../hooks/Api';
 import Context from './Context';
 
-function Provider(props) {
+function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [dados, setDados] = useState('');
+  const [filtered, setFiltered] = useState([]);
 
-  /* const fetchEndpoint = async () => {
-    const info = await Api();
-    // console.log(data);
-    // console.log(data.results);
-    setData(...data, [info]);
-  }; */
+  useEffect(() => {
+    const fetchApi = async () => {
+      const info = await Api();
+      const dataFilter = info.map(({ residents, ...rest }) => rest);
+      setData(dataFilter);
+    };
+    fetchApi();
+  }, [setData]);
 
-  const context = { data, setData };
-  const { children } = props;
+  useEffect(() => {
+    setFiltered(data);
+  }, [data]);
+
+  useEffect(() => {
+    if (dados.length > 0) {
+      console.log(data, dados);
+      return setFiltered(data.filter(
+        ({ name }) => name.toLowerCase().includes(dados.toLowerCase()),
+      ));
+    }
+    setFiltered(data);
+  }, [dados]);
+
+  const context = { data, setData, dados, setDados, filtered, setFiltered };
   return (
     <Context.Provider value={ context }>
       {children}
