@@ -17,19 +17,18 @@ function Provider({ children }) {
     fetchApi();
   }, [setData]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     setFiltered(data);
-  }, [data]);
+  }, [data]); */
 
   useEffect(() => {
     if (dados.length > 0) {
-      console.log(data, dados);
       return setFiltered(data.filter(
         ({ name }) => name.toLowerCase().includes(dados.toLowerCase()),
       ));
     }
     setFiltered(data);
-  }, [dados]);
+  }, [dados, data]);
 
   const context = { data, setData, dados, setDados, filtered, setFiltered };
   return (
