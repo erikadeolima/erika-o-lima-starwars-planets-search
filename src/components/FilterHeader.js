@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 function FilterHeader() {
-  const { search } = useContext(Context);
+  /* const { search } = useContext(Context); */
   return (
     <header>
       <form onSubmit={ filterButton }>
