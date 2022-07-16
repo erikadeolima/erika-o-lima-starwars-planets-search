@@ -1,4 +1,4 @@
-import testData from '../mock/testData';
+/* import testData from '../mock/testData' */
 
 const useApi = async () => {
   const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');

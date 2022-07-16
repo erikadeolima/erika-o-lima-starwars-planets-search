@@ -51,7 +51,6 @@ function Provider({ children }) {
       if (numFilterParams.length > 0) {
         let dataClone = [...data];
         numFilterParams.forEach(({ collumn, comparison, number }) => {
-          console.log(collumn, comparison, number);
           if (comparison === 'menor que') {
             dataClone = [...dataClone.filter(
               (planet) => Number(planet[collumn]) <= (Number(number) - 1),
