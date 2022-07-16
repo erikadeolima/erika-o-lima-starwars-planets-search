@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
+import SearchHeader from './SearchHeader';
+import FilterHeader from './FilterHeader';
 
 function TableInfo() {
   const { filtered } = useContext(Context);
 
   return (
     <div>
+      <SearchHeader />
+      <FilterHeader />
       <table>
         <thead>
           <tr>

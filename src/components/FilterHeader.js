@@ -1,58 +1,89 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Context from '../context/Context';
 
 function FilterHeader() {
-  /* const { search } = useContext(Context); */
+  const {
+    setFilterCollum,
+    filterCollum,
+    setNumFilterParams,
+  } = useContext(Context);
+
+  const collumns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const onHandleChange = ({ target: { name, value } }) => {
+    setFilterCollum((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  function setNumFilterParamsClick(e) {
+    e.preventDefault();
+    setNumFilterParams((prevState) => ([...prevState, filterCollum]));
+    setFilterCollum({
+      collumn: 'population',
+      comparison: 'maior que',
+      number: 0,
+    });
+  }
+
   return (
     <header>
-      <form onSubmit={ filterButton }>
-        <label htmlFor="currency">
+      <form>
+        <label htmlFor="column-filter">
           Coluna:
           <select
-            id="name-filter"
-            name="name-filter"
-            data-testid="name-filter"
-            value={ collum }
-            onChange={ onInputChange }
+            id="column-filter"
+            name="collumn"
+            data-testid="column-filter"
+            value={ filterCollum.collumn }
+            onChange={ onHandleChange }
           >
-            {data.map((collum) => (
+            {collumns.map((collumn, index) => (
               <option
-                key={ collum }
-                value={ collum }
+                key={ index }
+                value={ collumn }
               >
-                {collum}
+                {collumn}
               </option>))}
           </select>
         </label>
-        {/* <label htmlFor="currency">
+        <label htmlFor="comparison-filter">
           Operador:
           <select
-            id="method"
-            name="method"
-            data-testid="method-input"
-            value={ method }
-            onChange={ onInputChange }
+            id="comparison-filter"
+            name="comparison"
+            value={ filterCollum.comparison }
+            data-testid="comparison-filter"
+            onChange={ onHandleChange }
           >
-            <option>Selecione um método de Pagamento</option>
-            <option value="menor que">Menor que</option>
-            <option value="maior que">Maior que</option>
-            <option value="igual a">Igual a</option>
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
           </select>
         </label>
-        <input
-          id="value"
-          name="value"
-          type="text"
-          data-testid="value-input"
-          value={ value }
-          onChange={ onInputChange }
-        />
+        <label htmlFor="value-filter">
+          <input
+            id="value-filter"
+            name="number"
+            type="text"
+            value={ filterCollum.number }
+            data-testid="value-filter"
+            onChange={ onHandleChange }
+          />
+        </label>
         <button
           id="addExpense"
           name="addExpense"
           type="submit"
+          data-testid="button-filter"
+          onClick={ setNumFilterParamsClick }
         >
           Filtrar
-        </button> */}
+        </button>
 
       </form>
     </header>

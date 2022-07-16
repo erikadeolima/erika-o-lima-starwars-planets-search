@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 const Context = createContext({
   data: [],
-  name: '',
+  dados: '',
 });
 
 export default Context;
