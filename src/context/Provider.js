@@ -3,6 +3,16 @@ import React, { useState, useEffect } from 'react';
 import Api from '../hooks/Api';
 import Context from './Context';
 
+const collumnsArray = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
+let newCollumns = [...collumnsArray];
+
 function Provider({ children }) {
   // salva a results da minha API
   const [data, setData] = useState([]);
@@ -10,9 +20,11 @@ function Provider({ children }) {
   const [dados, setDados] = useState('');
   // salva os dados filtrados pelo input
   const [filtered, setFiltered] = useState([]);
+  // salva os filtros numericos
+  const [collumns, setCollumns] = useState(collumnsArray);
   // salva os dados dos filtros numericos
   const [filterCollum, setFilterCollum] = useState({
-    collumn: 'population',
+    collumn: newCollumns[0],
     comparison: 'maior que',
     number: 0,
   });
@@ -73,11 +85,42 @@ function Provider({ children }) {
     resultsNumFilter();
   }, [data, numFilterParams]);
 
+  useEffect(() => {
+    const resultsClearCollumn = () => {
+      if (numFilterParams.length > 0) {
+        numFilterParams.forEach(({ collumn }) => {
+          newCollumns = [...newCollumns.filter((item) => item !== collumn)];
+          return newCollumns;
+        });
+        setFilterCollum({
+          collumn: newCollumns[0],
+          comparison: 'maior que',
+          number: 0,
+        });
+        return [setCollumns(newCollumns),
+          setFilterCollum({
+            collumn: newCollumns[0],
+            comparison: 'maior que',
+            number: 0,
+          })];
+      }
+      setCollumns(collumnsArray);
+      setFilterCollum({
+        collumn: collumnsArray[0],
+        comparison: 'maior que',
+        number: 0,
+      });
+    };
+    resultsClearCollumn();
+  }, [numFilterParams]);
+
   const context = {
     data,
     setData,
     dados,
     setDados,
+    collumns,
+    setCollumns,
     filtered,
     setFiltered,
     filterCollum,

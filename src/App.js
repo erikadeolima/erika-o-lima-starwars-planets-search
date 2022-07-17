@@ -6,9 +6,7 @@ import Provider from './context/Provider';
 function App() {
   return (
     <Provider>
-      <div>
-        <TableInfo />
-      </div>
+      <TableInfo />
     </Provider>
   );
 }

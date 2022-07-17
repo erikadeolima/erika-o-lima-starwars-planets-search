@@ -3,18 +3,11 @@ import Context from '../context/Context';
 
 function FilterHeader() {
   const {
+    collumns,
     setFilterCollum,
     filterCollum,
     setNumFilterParams,
   } = useContext(Context);
-
-  const collumns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
 
   const onHandleChange = ({ target: { name, value } }) => {
     setFilterCollum((prevState) => ({ ...prevState, [name]: value }));
@@ -23,11 +16,11 @@ function FilterHeader() {
   function setNumFilterParamsClick(e) {
     e.preventDefault();
     setNumFilterParams((prevState) => ([...prevState, filterCollum]));
-    setFilterCollum({
-      collumn: 'population',
+    /* setFilterCollum({
+      collumn: collumns[0],
       comparison: 'maior que',
       number: 0,
-    });
+    }); */
   }
 
   return (
@@ -84,7 +77,6 @@ function FilterHeader() {
         >
           Filtrar
         </button>
-
       </form>
     </header>
   );
