@@ -65,11 +65,11 @@ function Provider({ children }) {
         numFilterParams.forEach(({ collumn, comparison, number }) => {
           if (comparison === 'menor que') {
             dataClone = [...dataClone.filter(
-              (planet) => Number(planet[collumn]) <= (Number(number) - 1),
+              (planet) => Number(planet[collumn]) < (Number(number)),
             )];
           } else if (comparison === 'maior que') {
             dataClone = [...dataClone.filter(
-              (planet) => Number(planet[collumn]) >= (Number(number) + 1),
+              (planet) => Number(planet[collumn]) > (Number(number)),
             )];
           } else {
             dataClone = [...dataClone.filter(

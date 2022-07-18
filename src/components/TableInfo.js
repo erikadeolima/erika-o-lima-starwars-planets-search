@@ -2,17 +2,25 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 import SearchHeader from './SearchHeader';
 import FilterHeader from './FilterHeader';
+import AppliedFilters from './AppliedFilters';
 
 function TableInfo() {
   const { filtered } = useContext(Context);
 
   return (
     <div>
-      <SearchHeader />
-      <FilterHeader />
+      <div>
+        <SearchHeader />
+      </div>
+      <div>
+        <FilterHeader />
+      </div>
+      <div>
+        <AppliedFilters />
+      </div>
       <table>
-        <thead>
-          <tr>
+        <thead data-testid="collumn-header">
+          <tr data-testid="collumn-line">
             <th>Name</th>
             <th>Rotation Period</th>
             <th>Orbital Period</th>
@@ -28,28 +36,27 @@ function TableInfo() {
             <th>URL</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-testid="collumn-body">
           { filtered.map((planet, index) => (
-            <tr key={ index }>
-              <td name={ planet.name }>{planet.name}</td>
-              <td name={ planet.rotation_period }>{planet.rotation_period}</td>
-              <td name={ planet.orbital_period }>{planet.orbital_period}</td>
-              <td name={ planet.diameter }>{planet.diameter}</td>
-              <td name={ planet.climate }>{planet.climate}</td>
-              <td name={ planet.gravity }>{planet.gravity}</td>
-              <td name={ planet.terrain }>{planet.terrain}</td>
-              <td name={ planet.surface_water }>{planet.surface_water}</td>
-              <td name={ planet.population }>{planet.population}</td>
-              <td name={ planet.films }>{planet.films}</td>
-              <td name={ planet.created }>{planet.created}</td>
-              <td name={ planet.edited }>{planet.edited}</td>
-              <td name={ planet.url }>{planet.url}</td>
+            <tr key={ index } data-testid={ planet.name }>
+              <td>{planet.name}</td>
+              <td>{planet.rotation_period}</td>
+              <td>{planet.orbital_period}</td>
+              <td>{planet.diameter}</td>
+              <td>{planet.climate}</td>
+              <td>{planet.gravity}</td>
+              <td>{planet.terrain}</td>
+              <td>{planet.surface_water}</td>
+              <td>{planet.population}</td>
+              <td>{planet.films}</td>
+              <td>{planet.created}</td>
+              <td>{planet.edited}</td>
+              <td>{planet.url}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-
   );
 }
 
