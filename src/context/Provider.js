@@ -10,6 +10,7 @@ const collumnsArray = [
   'rotation_period',
   'surface_water',
 ];
+const MENOS_1 = -1;
 
 let newCollumns = [...collumnsArray];
 
@@ -30,13 +31,22 @@ function Provider({ children }) {
   });
   // salva os filtros numericos de forma que possa aplicar mais de um filtro
   const [numFilterParams, setNumFilterParams] = useState([]);
+  // salva os filtros ordenados de forma que possa aplicar mais de um filtro
+  const [numOrder, setNumOrder] = useState({
+    collumn: 'population',
+    sort: 'ASC',
+  });
+  // salva os dados dos filtros ordenados de forma que possa aplicar mais de um filtro
+  const [numOrderParams, setNumOrderParams] = useState([]);
 
   // faz a requisição da API assim que minha pag carrega e seta ela no data
   useEffect(() => {
     const fetchApi = async () => {
       const info = await Api();
       const dataFilter = info.map(({ residents, ...rest }) => rest);
-      setData(dataFilter);
+      /* const dataOrder = dataFilter.sort((a, b) => a.name - b.name); não func */
+      const dataOrder = dataFilter.sort((a, b) => (a.name < b.name ? MENOS_1 : 1)); /* teste */
+      setData(dataOrder);
     };
     fetchApi();
   }, [setData]);
@@ -82,6 +92,7 @@ function Provider({ children }) {
       }
       setFiltered(data);
     };
+    console.log('filtered', filtered);
     resultsNumFilter();
   }, [data, numFilterParams]);
 
@@ -114,6 +125,84 @@ function Provider({ children }) {
     resultsClearCollumn();
   }, [numFilterParams]);
 
+  /* numOrderParams.map(({ collumn, sort }) => {
+    const dataUnknow = [...dataClone.filter((u) => u[collumn] === 'unknown')];
+    console.log('unknow', dataUnknow);
+    const dataKnow = [...dataClone.filter((u) => u[collumn] !== 'unknown')];
+    console.log('know', dataKnow);
+    if (sort === 'ASC') {
+      const knowSort = dataKnow.sort(
+        (a, b) => (Number(a[collumn]) - Number(b[collumn])),
+      );
+      return [...knowSort, ...dataUnknow];
+      // https://blog.greenroots.info/5-ways-to-merge-arrays-in-javascript-and-their-differences
+    }
+    const knowSort = dataKnow.sort(
+      (a, b) => (Number(b[collumn]) - Number(a[collumn])),
+    );
+    return [...knowSort, ...dataUnknow];
+
+    ||
+
+    const dataClone = [...data];
+      if (numOrderParams.length !== 0) {
+        numOrderParams.forEach(({ collumn, sort }) => {
+          if (sort === 'ASC') {
+            return dataClone
+              .sort((a, b) => {
+                const aValue = a[collumn] === 'unknown'
+                  ? Number.POSITIVE_INFINITY : a[collumn];
+                const bValue = b[collumn] === 'unknown'
+                  ? Number.POSITIVE_INFINITY : b[collumn];
+                return aValue - bValue;
+              });
+          }
+          return dataClone
+            .sort((a, b) => {
+              const aValue = a[collumn] === 'unknown'
+                ? Number.NEGATIVE_INFINITY : a[collumn];
+              const bValue = b[collumn] === 'unknown'
+                ? Number.NEGATIVE_INFINITY : b[collumn];
+              return bValue - aValue;
+            });
+        });
+        return setFiltered(dataClone);
+      }
+  }); */
+
+  const orderA = (a, b, coll) => {
+    if (a[coll] === 'unknown') {
+      return Number.POSITIVE_INFINITY;
+    }
+    return Number(a[coll]) - Number(b[coll]);
+  };
+  const orderD = (a, b, coll) => {
+    if (b[coll] === 'unknown') {
+      return Number.NEGATIVE_INFINITY;
+    }
+    return Number(b[coll]) - Number(a[coll]);
+  };
+  useEffect(() => {
+    const filterOrder = () => {
+      // https://www.w3schools.com/jsref/jsref_sort.asp
+      // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Number/POSITIVE_INFINITY
+      const dataClone = [...data];
+      if (numOrderParams.length !== 0) {
+        numOrderParams.forEach(({ collumn, sort }) => {
+          if (sort === 'ASC') {
+            return dataClone
+              .sort((a, b) => orderA(a, b, collumn));
+          }
+          return dataClone
+            .sort((a, b) => orderD(a, b, collumn));
+        });
+        return setFiltered(dataClone);
+      }
+      return setFiltered(data);
+    };
+    filterOrder();
+  }, [data, numOrderParams]);
+
   const context = {
     data,
     setData,
@@ -127,6 +216,10 @@ function Provider({ children }) {
     setFilterCollum,
     numFilterParams,
     setNumFilterParams,
+    numOrder,
+    setNumOrder,
+    numOrderParams,
+    setNumOrderParams,
   };
   return (
     <Context.Provider value={ context }>

@@ -38,8 +38,8 @@ function TableInfo() {
         </thead>
         <tbody data-testid="collumn-body">
           { filtered.map((planet, index) => (
-            <tr key={ index } data-testid={ planet.name }>
-              <td>{planet.name}</td>
+            <tr key={ index } data-testid={ `planet-${index + 1}` }>
+              <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>
               <td>{planet.diameter}</td>

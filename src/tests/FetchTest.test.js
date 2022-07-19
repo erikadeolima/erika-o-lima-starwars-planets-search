@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import App from '../App';
-/* import userEvent from '@testing-library/user-event'; */
 import testData from '../../cypress/mocks/testData';
 
 const planets = testData.results;
@@ -13,10 +12,16 @@ afterEach(()=>{
 });
 describe('Testa se é feita uma requisição para a API de forma correta',()=>{
   test('1 - Quando feita uma requisição para o endpoint `/planets` da API de Star Wars e preenche as colunas e linhas com os dados retornados, com exceção dos da coluna `residents`',async()=>{
-    await waitFor(()=> jest.fn('fetch').mockResolvedValue(mockFetchSucess), { timeout: 1000});    
+    await waitFor(()=> jest.fn('fetch').mockResolvedValue(mockFetchSucess), { timeout: 300});  
     render(<App/>);
+    
+    await waitFor(()=> expect(screen.getByTestId(/tatooine/i)).toBeInTheDocument(), { timeout: 5000});
+
+    expect(screen.getByTestId(/kamino/i)).toBeInTheDocument()
 
     expect(screen.getAllByRole('columnheader')).toHaveLength(13);
+        
+    expect(screen.getAllByTestId(/planet-/i).length).toBe(planets.length);
 
     expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(/Name/i);
     expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(/Rotation Period/i);
@@ -33,4 +38,4 @@ describe('Testa se é feita uma requisição para a API de forma correta',()=>{
     expect(screen.getAllByRole('columnheader')[11]).toHaveTextContent(/Edited/i);
     expect(screen.getAllByRole('columnheader')[12]).toHaveTextContent(/URL/i);
   });
-});
+},{ timeout: 10000});
