@@ -40,10 +40,10 @@ describe('Testa se a tabela é devidamente renderizada, incluisve quando aplicad
     render(<App/>);
 
     expect(screen.getByTestId(INPUT_FILTER_NAME)).toBeInTheDocument();
-    await waitFor(()=> expect(screen.getByTestId(/kamino/i)).toBeInTheDocument(), { timeout: 2000});
+    await waitFor(()=> expect(screen.getByTestId(/kamino/i)).toBeInTheDocument(), { timeout: 400});
 
     userEvent.type(screen.getByTestId(INPUT_FILTER_NAME), /o/i);
-    await waitFor(()=>expect(screen.getByTestId(/Tatooine/i)).toBeInTheDocument(),{ timeout: 2000});
+    await waitFor(()=>expect(screen.getByTestId(/Tatooine/i)).toBeInTheDocument(),{ timeout: 400});
     expect(screen.getByTestId(/Tatooine/i)).toBeInTheDocument()
     expect(screen.getByTestId(/Hoth/i)).toBeInTheDocument();
     expect(screen.getByTestId(/Dagobah/i)).toBeInTheDocument();
