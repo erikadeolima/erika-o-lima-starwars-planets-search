@@ -9,6 +9,7 @@ function SearchHeader() {
       <form>
         <input
           id="name-filter"
+          name="name-filter"
           type="text"
           data-testid="name-filter"
           onChange={ ({ target: { value } }) => setDados(value) }

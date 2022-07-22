@@ -34,28 +34,28 @@ afterEach(()=>{
 });
 describe('Testa se a tabela é devidamente renderizada, incluisve quando aplicado os filtros',()=>{
   jest.setTimeout(30000);
-  test('1 - Crie um filtro de texto para a tabela',async()=>{
-    await waitFor(()=> jest.fn('fetch').mockResolvedValue(mockFetchSucess), { timeout: 100});
+  it('1 - Crie um filtro de texto para a tabela',async()=>{
+    /* await waitFor(()=> jest.fn('fetch').mockResolvedValue(mockFetchSucess), { timeout: 100}); */
+    global.fetch = jest.fn(
+      () => Promise.resolve({
+        json: () => Promise.resolve({
+          results: planets,
+        }),
+      }),
+    );
 
     render(<App/>);
 
-    expect(screen.getByTestId(INPUT_FILTER_NAME)).toBeInTheDocument();
-    await waitFor(()=> expect(screen.getByTestId(/kamino/i)).toBeInTheDocument(), { timeout: 400});
+    await waitFor (async ()=> await screen.findAllByTestId("planet-name"), { timeout:500});
 
     userEvent.type(screen.getByTestId(INPUT_FILTER_NAME), /o/i);
-    await waitFor(()=>expect(screen.getByTestId(/Tatooine/i)).toBeInTheDocument(),{ timeout: 400});
-    expect(screen.getByTestId(/Tatooine/i)).toBeInTheDocument()
-    expect(screen.getByTestId(/Hoth/i)).toBeInTheDocument();
-    expect(screen.getByTestId(/Dagobah/i)).toBeInTheDocument();
-    expect(screen.getByTestId(/Endor/i)).toBeInTheDocument();
-    expect(screen.getByTestId(/Naboo/i)).toBeInTheDocument();
-
-    userEvent.type(screen.getByTestId(INPUT_FILTER_NAME), /oo/i);
-    await waitFor(()=>expect(screen.getByTestId(/Tatooine/i)).toBeInTheDocument(),{ timeout: 2000});
-    expect(screen.getByTestId(/Tatooine/i)).toBeInTheDocument();
-    expect(screen.getByTestId(/Naboo/i)).toBeInTheDocument();
+    
+    await waitFor(async ()=> await screen.findAllByTestId("planet-name"),{ timeout: 3000});
+    
+    expect(screen.getAllByRole('row')).toHaveLength(8);
+    
   });
-  /* test('',async()=>{
+  /* it('',async()=>{
     jest.fn('fetch').mockResolvedValue(testData);    
     render(<App/>)
   }); */
