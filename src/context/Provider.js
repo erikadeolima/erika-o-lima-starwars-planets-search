@@ -92,7 +92,6 @@ function Provider({ children }) {
       }
       setFiltered(data);
     };
-    console.log('filtered', filtered);
     resultsNumFilter();
   }, [data, numFilterParams]);
 

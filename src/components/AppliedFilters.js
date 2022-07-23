@@ -8,14 +8,12 @@ function AppliedFilters() {
   } = useContext(Context);
 
   const removeFilter = ({ target: { value } }) => {
-    console.log('entrou', value, numFilterParams);
     /* const filtersFilter = [...numFilterParams.forEach(() => {
       numFilterParams.filter(({ collumn }) => collumn !== value);
     })]; */
     const filtersFilter = [...numFilterParams.map(
       (obj) => obj,
     ).filter((i) => i.collumn !== value)];
-    console.log(filtersFilter);
     setNumFilterParams(filtersFilter);
   };
 
