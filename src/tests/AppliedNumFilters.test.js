@@ -4,7 +4,6 @@ import App from '../App';
 import testData from '../../cypress/mocks/testData';
 import userEvent from '@testing-library/user-event';
 
-const INPUT_FILTER_NAME = 'name-filter';
 const COLUMN_FILTER = 'column-filter';
 const COMPARISON_FILTER = 'comparison-filter';
 const VALUE_FILTER = 'value-filter';
